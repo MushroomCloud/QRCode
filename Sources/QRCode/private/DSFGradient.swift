@@ -158,7 +158,7 @@ public extension DSFGradient {
 				.map { $0.clamped(to: 0 ... 1) }                    // Clamp the value to 0 -> 1
 			guard comps.count == 4 else { return nil }
 
-			let pin = Pin(CGColor(red: comps[0], green: comps[1], blue: comps[2], alpha: comps[3]), pos)
+            let pin = Pin(CGColor.create(red: comps[0], green: comps[1], blue: comps[2], alpha: comps[3]), pos)
 			pins.append(pin)
 		}
 

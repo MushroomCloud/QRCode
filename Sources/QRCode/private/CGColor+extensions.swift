@@ -23,6 +23,10 @@
 import CoreGraphics
 import Foundation
 
+#if !os(macOS)
+import UIKit
+#endif
+
 // Default colorspace for RGBA archiving/unarchiving
 private let ArchiveRGBAColorSpace = CGColorSpace(name: CGColorSpace.sRGB)!
 
@@ -81,9 +85,27 @@ public extension CGColor {
 
 #if !os(macOS)
 extension CGColor {
-	static let white = CGColor(gray: 1, alpha: 1)
-	static let black = CGColor(gray: 0, alpha: 1)
-	static let clear = CGColor(gray: 0, alpha: 0)
+    static let white = CGColor.create(white: 1, alpha: 1)
+	static let black = CGColor.create(white: 0, alpha: 1)
+	static let clear = CGColor.create(white: 0, alpha: 0)
+    
+    public static func create(red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) -> CGColor {
+        return UIColor(red: red, green: green, blue: blue, alpha: alpha).cgColor
+    }
+    
+    public static func create(white: CGFloat, alpha: CGFloat) -> CGColor {
+        return UIColor(white: white, alpha: alpha).cgColor
+    }
+}
+#else
+extension CGColor {
+    public static func create(red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) -> CGColor {
+        return CGColor(red: red, green: green, blue: blue, alpha: alpha)
+    }
+    
+    public static func create(white: CGFloat, alpha: CGFloat) -> CGColor {
+        return CGColor(gray: white, alpha: alpha)
+    }
 }
 #endif
 
